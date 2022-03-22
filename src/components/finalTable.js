@@ -9,112 +9,8 @@ import { Checkbox } from './checkbox'
 // const dummyObj = require("../helpers/dummyData");
 
 
-const FinalTableComponet = () => {
+const FinalTableComponent = ({columns, data}) => {
   
-  const columns = useMemo(() => [
-    {
-      Header: 'Suite Name',
-      accessor: 'dummyObj.suiteName'
-    },
-    {
-      Header: 'Repo URL',
-      accessor: 'dummyObj.repoUrl'
-    },
-    {
-      Header: 'Repo Branch',
-      accessor: 'dummyObj.repoBranch'
-    },
-    {
-      Header: 'Service Name',
-      accessor: 'dummyObj.services.0.name'
-    },
-    {
-      Header: 'Simulation Name',
-      accessor: 'dummyObj.services.0.simulations.0.name'
-    },
-    {
-      Header: 'Simulation Service',
-      accessor: 'dummyObj.services.0.simulations.0.serviceName'
-    },
-    {
-      Header: 'Gatling Version',
-      accessor: 'dummyObj.services.0.simulations.0.gatlingVersion'
-    },
-    {
-      Header: 'Load Generator',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.label'
-    },
-    {
-      Header: 'Load Generator Type',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.type'
-    },
-    {
-      Header: 'Load Generator Beekeeper Protocol',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.beekeeperProtocol'
-    },
-    {
-      Header: 'Load Generator Beekeeper URL',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.beekeeperUrl'
-    },
-    {
-      Header: 'Load Generator Bee Protocol',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.beeProtocol'
-    },
-    {
-      Header: 'Load Generator Bee Port',
-      accessor: 'dummyObj.services.0.simulations.0.loadGenerator.beePort'
-    },
-    {
-      Header: 'No. Bees',
-      accessor: 'dummyObj.services.0.simulations.0.numberOfBees'
-    },
-    {
-      Header: 'Disable Caching',
-      accessor: 'dummyObj.services.0.simulations.0.disableCaching'
-    },
-    {
-      Header: 'Simulation Scenario',
-      accessor: 'dummyObj.services.0.simulations.0.simulationsDefinitions.0.scenario'
-    },
-    {
-      Header: 'Simulation Load Injector Name',
-      accessor: 'dummyObj.services.0.simulations.0.simulationsDefinitions.0.loadInjector.name'
-    },
-    {
-      Header: 'Simulation Load Injector Variables',
-      accessor: 'dummyObj.services.0.simulations.0.simulationsDefinitions.0.loadInjector.injectorVariables'
-    },
-    {
-      Header: 'Simulation Load Injector Steps',
-      accessor: 'dummyObj.services.0.simulations.0.simulationsDefinitions.0.loadInjector.injectorSteps'
-    },
-    {
-      Header: 'Data',
-      accessor: 'dummyObj.services.data'
-    },
-    {
-      Header: 'PLT Config Test To Run',
-      accessor: 'dummyObj.services.pltConfig.TestToRun'
-    },
-    {
-      Header: 'PLT Config Package',
-      accessor: 'dummyObj.services.pltConfig.Package'
-    },
-    {
-      Header: 'PLT Config Test Configs',
-      accessor: 'dummyObj.services.pltConfig.TestConfigs'
-    },
-    {
-      Header: 'PLT Config Location',
-      accessor: 'dummyObj.services.pltConfigLocation'
-    },
-  ], []);
-
-  const data = useMemo(() => [
-    // flattenObject(dummyObj)
-    // ** Data Here **
-  ], [])
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -177,11 +73,13 @@ const FinalTableComponet = () => {
         <div>
           <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
         </div>
-        {allColumns.map(column => (
+        {
+          // allColumns.slice(1) removes the awkward empty checkboxes at the top of the list from the row-select column
+          allColumns.slice(1).map(column => (
           <div key={column.id}>
             <label>
-              <input type='checkbox' {...column.getToggleHiddenProps()} />{' '}
-              {column.Header}
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.render('Header')}
             </label>
           </div>
         ))}
@@ -278,4 +176,4 @@ const FinalTableComponet = () => {
   )
 }
 
-export default FinalTableComponet
+export default FinalTableComponent
